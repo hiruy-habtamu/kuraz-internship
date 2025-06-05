@@ -6,7 +6,11 @@ class TaskSerializer(serializers.ModelSerializer):
         model = Task
         fields = '__all__'
 
-class TaskListSerializer(serializers.ModelSerializer):
+class TaskListCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Task
         fields = ['id', 'title', 'status']
+    def validate_title(self, value):
+        if not value or value.strip() == "":
+            raise serializers.ValidationError("Title must not be empty.")
+        return value
